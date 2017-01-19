@@ -1,0 +1,16 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+    Username: <input id="inputName" type="text" name="username">
+    <input id="userEntry" type="button">
+<script>
+$("#userEntry").click(function(){
+    
+    $.get("/userSearch",
+        {username:$("#inputName").val()},
+        function(data){
+            console.log(data);
+        }
+    );
+});
+
+</script>
