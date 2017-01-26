@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var key = "3ca3e63b-f0ea-4641-bdf9-ad0171b74b30";
-var rp = require('request-promise');
+var throttle = require('request-promise');
 var coreURI = "https://na.api.pvp.net";
 var username = undefined;
-var numMatches = 5;
+var numMatches = 15;
+var throttle = require('../quota.js');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -32,7 +34,7 @@ function getSummonerID(req){
       },
       json: true // Automatically parses the JSON string in the response
   };
-  return rp(summonerIdOptions)  
+  return throttle(summonerIdOptions)  
 }
 
 function getMatchList(summoner){
@@ -47,7 +49,7 @@ function getMatchList(summoner){
         },
         json: true // Automatically parses the JSON string in the response
       };
-      return rp(matchListOptions)
+      return throttle(matchListOptions)
 }
 /**
  * args: matchlist object from rito api
@@ -73,5 +75,5 @@ function getMatch(matchId){
         },
         json: true // Automatically parses the JSON string in the response
       };
-      return rp(matchOptions);
+      return throttle(matchOptions);
 }
